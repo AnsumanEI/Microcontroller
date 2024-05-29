@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IMU Data</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    .data-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .data-box {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 8px;
+      flex: 1 0 45%;
+    }
+    .data-box h3 {
+      margin: 0 0 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>IMU Data</h1>
+  <div id="imuData" class="data-container"></div>
+  
+  <script>
+    async function fetchData() {
+      const response = await fetch('/imu-data');
+      const data = await response.json();
+      const imuDataContainer = document.getElementById('imuData');
+      
+      imuDataContainer.innerHTML = `
+        <div class="data-box">
+          <h3>Accelerometer</h3>
+          <p>X: ${data.accelX}</p>
+          <p>Y: ${data.accelY}</p>
+          <p>Z: ${data.accelZ}</p>
+        </div>
+        <div class="data-box">
+          <h3>Gyroscope</h3>
+          <p>X: ${data.gyroX}</p>
+          <p>Y: ${data.gyroY}</p>
+          <p>Z: ${data.gyroZ}</p>
+        </div>
+              `;
+    }
+    
+    setInterval(fetchData, 100); // Fetch data every second
+  </script>
+</body>
+</html>
